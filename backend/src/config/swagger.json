@@ -1,0 +1,237 @@
+{
+  "swagger": "2.0",
+  "title": "Invoice builder API Documentation",
+  "description": "Swagger API Documentation for Invoice Builder MEAN Stack App",
+  "licence": {
+    "name": "MIT",
+    "url": "https:/opensource.org/licenses/MIT"
+  },
+  "version": "1.0.0",
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Invoice",
+      "description": "API for Invoice Builder"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/Invoices": {
+      "post": {
+        "tags": ["Invoices"],
+        "summary": "Create new Invoice",
+        "description": "Create a new invoice in the system",
+        "parameters": [
+          {
+            "name": "invoice",
+            "description": "Invoice that we want to create invoice",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Invoices"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "new invoice is created",
+            "schema": {
+              "$ref": "#definitions/Invoices"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Invoices"],
+        "summary": "Find all invoices from the server",
+        "discription": "All invoices",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "Set the page for pagination",
+            "in": "query"
+          },
+          {
+            "name": "perPage",
+            "type": "integer",
+            "description": "Define the  limit for the record",
+            "in": "query"
+          },
+          {
+            "name": "filter",
+            "type": "string",
+            "description": "Filter the invoices by item name",
+            "in": "query"
+          },
+          {
+            "name": "sortField",
+            "type": "string",
+            "description": "Define the sortField for sorting i.e item, due, date",
+            "in": "query"
+          },
+          {
+            "name": "sortDir",
+            "type": "string",
+            "description": "Define the sortDir for sorting i.e desc, asc",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#definitions/Invoices"
+            }
+          }
+        }
+      }
+    },
+    "/Invoices/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the Invoice",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Invoices"],
+        "discription": "Find the invoice by id",
+        "summary": "Find single invoice",
+        "responses": {
+          "200": {
+            "description": "Invoice is found",
+            "schema": {
+              "$ref": "#definitions/Invoice"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Invoices"],
+        "discription": "Delete the invoice by id",
+        "summary": "Delete single invoice",
+        "responses": {
+          "200": {
+            "description": "Invoice is deleted succeffuly",
+            "schema": {
+              "$ref": "#definitions/Invoice"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Invoices"],
+        "summary": "Update an Invoice",
+        "description": "Update an invoice in the system",
+        "parameters": [
+          {
+            "name": "invoice",
+            "description": "Invoice that we want to update invoice",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UpdateInvoice"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Invoice updated successfully",
+            "schema": {
+              "$ref": "#definitions/Invoice"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Invoice": {
+      "required": ["item, qty, date, due"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "item": {
+          "type": "string"
+        },
+        "qty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "due": {
+          "type": "string",
+          "format": "date"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "tax": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "UpdateInvoice": {
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "qty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "due": {
+          "type": "string",
+          "format": "date"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "tax": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "Invoices": {
+      "properties": {
+        "docs": {
+          "type": "array",
+          "$ref": "#definitions/Invoice"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "limt": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
